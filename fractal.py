@@ -4,22 +4,48 @@ import math
 import matplotlib.pyplot as plt
 
 pt_dict = {}
-
+'''
+Return the midpoint of two points based on their entry in the global point dictionary
+Arguments:
+	pt_pair tuple of tuples ((x,y), (x,y)):
+		The two points to lookup
+Return:
+	midpoint (x,y):
+		The midpoint of the two points
+'''
 def get_midpt(pt_pair):
 	if(pt_pair not in pt_dict):
 		return pt_dict[(pt_pair[1], pt_pair[0])]
 	else:
 		return pt_dict[pt_pair]
 
-def input_midpt(pt_pair, midpt):	
+'''
+Add a point pair and its corresponding midpoint to the global point dictionary
+Arguments:
+	pt_pair (tuple of tuples) ((x,y), (x,y)):
+		a pair of points
+	midpt (tuple) (x,y):
+		a coordinate midpoint between the points in pt_pair
+
+'''
+def input_midpt(pt_pair, midpt):
+	#the point is not currently in the global dictionary	
 	if(pt_pair not in pt_dict):
 		if((pt_pair[1], pt_pair[0]) not in pt_dict):
 			pt_dict[pt_pair] = midpt
 		else:
 			pt_dict[(pt_pair[1], pt_pair[0])] = midpt
+	#the point IS in the global, update the current entry
 	else:
 		pt_dict[pt_pair] = midpt
-
+'''
+check if the midpoint of two points has already been updated
+Arguments:
+	pt_pair ((x,y), (x,y)): pair of points
+return: 
+	boolean, True if the midpoint has been updated,
+		 	 False if the midpoint doesn't exist, or hasn't been updated
+'''
 def is_updated(pt_pair):
 	midpt = get_midpt(pt_pair)
 	if(midpt == None):
@@ -58,6 +84,15 @@ def input_triangle(triangle):
 	input_pts((pt1, pt3))
 	input_pts((pt2, pt3))
 
+'''
+Update a triangle by creating new midpoints for each side
+Arugments:
+	triangle (tuple(tuple))  ((x,y), (x,y), (x,y)): 
+		outer tuple holdes three sets of coordinates ()
+		inner tuple holds an x and y coordinate (x,y)
+Return:
+	four triangeles, 
+'''
 def update_triangle(triangle):
 	pt1 = triangle[0]
 	pt2 = triangle[1]
@@ -85,7 +120,14 @@ def update_triangle(triangle):
 	#print(pt_dict)
 
 	return triangle1, triangle2, triangle3, triangle4	
+'''
+input: list of triangles [((x,y), (x,y), (x,y)),....]
+list represents all triangles
+each out tuple consists of three tuples of coordinates to designate a triangle
+each inner tuple consists of an x and y cooridnate
 
+iteration (int): the current recursive iteration, counts down to zero
+'''
 def fractal(input, iteration):
 	if(iteration == 0):
 		return input
@@ -123,6 +165,6 @@ def plot_fractal(fractal):
 
 triangle = [(0,0), (4,2), (2,0)]
 input_triangle(triangle)
-output = fractal([triangle], 6)
+output = fractal([triangle], 1)
 plot_fractal(output)
 
